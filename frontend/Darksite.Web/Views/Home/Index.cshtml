@@ -1,0 +1,169 @@
+@{
+    ViewData["Title"] = "Darksite - Bounty Hunter Platform";
+}
+
+<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/site.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animated"></div>
+    <div id="particles-bg"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="glitch neon-flicker">DARKSITE</h1>
+            <p class="subtitle mono">// BOUNTY HUNTER PLATFORM</p>
+            <p class="tagline">Track. Hunt. Collect. In the shadows of the dark web.</p>
+            
+            <div style="display: flex; gap: 1.5rem; justify-content: center; margin-top: 2rem;">
+                <a href="@Url.Action("Login", "Home")" class="btn btn-primary">
+                    <span>⚡ ENTER DARKSITE</span>
+                </a>
+                <a href="@Url.Action("About", "Home")" class="btn btn-secondary">
+                    <span>📡 LEARN MORE</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="container py-5">
+        <h2 class="text-center mb-3 glitch">THREAT DATABASE</h2>
+        <p class="text-center text-secondary mb-3 mono">
+            Access real-time bounty information from the darkest corners of cyberspace
+        </p>
+
+        <div class="grid grid-3">
+            <!-- Feature Card 1 -->
+            <div class="card reveal">
+                <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">🎯</div>
+                <h3 class="text-center">Active Bounties</h3>
+                <div class="terminal-content text-center">
+                    Track high-value targets across the digital underworld. Real-time updates on threat levels and reward amounts.
+                </div>
+            </div>
+
+            <!-- Feature Card 2 -->
+            <div class="card reveal">
+                <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">🔒</div>
+                <h3 class="text-center">Secure Access</h3>
+                <div class="terminal-content text-center">
+                    Military-grade encryption protects hunter identities and sensitive target information.
+                </div>
+            </div>
+
+            <!-- Feature Card 3 -->
+            <div class="card reveal">
+                <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">⚡</div>
+                <h3 class="text-center">Instant Updates</h3>
+                <div class="terminal-content text-center">
+                    Real-time notifications when new bounties match your specialization profile.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Terminal Preview Section -->
+    <section class="container py-5">
+        <div class="terminal">
+            <div class="terminal-header">
+                <span class="prompt">root@darksite:~$</span> ./bounty-scanner --active --threat-level critical
+            </div>
+            <div class="terminal-content mono">
+                <p><span class="prompt">[SCANNING]</span> <span class="output">Initializing connection to darknet nodes...</span></p>
+                <p><span class="prompt">[SUCCESS]</span> <span class="output">Connected to 142 nodes across 38 countries</span></p>
+                <p><span class="prompt">[FOUND]</span> <span class="output">5 Critical-level targets identified</span></p>
+                <p><span class="prompt">[INFO]</span> <span class="output">Total bounty pool: $2,376,000</span></p>
+                <p><span class="text-danger">[ALERT]</span> <span class="text-danger">New bounty added: "Nyx" - $900,000 reward</span></p>
+                <p><span class="prompt">[STATUS]</span> <span class="text-primary">System ready. Awaiting hunter authentication...</span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="container py-5">
+        <h2 class="text-center mb-3">PLATFORM STATISTICS</h2>
+        <div class="grid grid-3">
+            <div class="card text-center">
+                <h1 class="text-primary">$2.3M</h1>
+                <p class="text-secondary">Active Bounties</p>
+            </div>
+            <div class="card text-center">
+                <h1 class="text-primary">142</h1>
+                <p class="text-secondary">Registered Hunters</p>
+            </div>
+            <div class="card text-center">
+                <h1 class="text-danger">8</h1>
+                <p class="text-secondary">Critical Threats</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Threat Level Badges -->
+    <section class="container py-5">
+        <h2 class="text-center mb-3">THREAT CLASSIFICATION</h2>
+        <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+            <div style="text-align: center;">
+                <div style="padding: 1rem 2rem; background: rgba(255,170,0,0.1); border: 2px solid var(--accent-warning); border-radius: 5px;">
+                    <strong class="text-warning">⚠️ LOW</strong>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <div style="padding: 1rem 2rem; background: rgba(0,212,255,0.1); border: 2px solid var(--accent-secondary); border-radius: 5px;">
+                    <strong class="text-secondary">🔵 MEDIUM</strong>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <div style="padding: 1rem 2rem; background: rgba(0,255,65,0.1); border: 2px solid var(--accent-primary); border-radius: 5px;">
+                    <strong class="text-primary">🟢 HIGH</strong>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <div style="padding: 1rem 2rem; background: rgba(255,0,64,0.1); border: 2px solid var(--accent-danger); border-radius: 5px;">
+                    <strong class="text-danger">🔴 CRITICAL</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="container py-5 text-center">
+        <div class="terminal" style="padding: 3rem;">
+            <h2 class="mb-2">READY TO JOIN THE HUNT?</h2>
+            <p class="text-secondary mb-3 mono">
+                Register now and gain access to exclusive bounty intelligence
+            </p>
+            <div style="display: flex; gap: 1.5rem; justify-content: center;">
+                <a href="@Url.Action("Register", "Home")" class="btn btn-primary">
+                    <span>⚡ REGISTER NOW</span>
+                </a>
+                <a href="@Url.Action("Login", "Home")" class="btn btn-secondary">
+                    <span>🔐 HUNTER LOGIN</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: rgba(18,18,26,0.9); padding: 2rem; text-align: center; border-top: 2px solid var(--accent-primary); margin-top: 4rem;">
+        <p class="text-muted mono">
+            ⚠️ STUDY PURPOSE ONLY - FICTIONAL PLATFORM<br>
+            DARKSITE &copy; 2025 | DevOps Learning Project
+        </p>
+        <p class="text-muted" style="margin-top: 1rem; font-size: 0.9rem;">
+            Built with ASP.NET Core, Entity Framework, Azure SQL &amp; Azure DevOps
+        </p>
+    </footer>
+
+    <!-- Load JavaScript -->
+    <script src="~/js/scroll-effects.js"></script>
+    <script src="~/js/spider.js"></script>
+</body>
+</html>

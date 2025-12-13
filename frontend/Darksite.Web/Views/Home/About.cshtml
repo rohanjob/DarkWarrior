@@ -1,0 +1,246 @@
+@{
+    ViewData["Title"] = "About - Darksite";
+}
+
+<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/site.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animated"></div>
+    <div id="particles-bg"></div>
+
+    <!-- Navigation -->
+    <header>
+        <nav class="container">
+            <a href="@Url.Action("Index", "Home")" class="logo">DARKSITE</a>
+            <ul class="nav-links">
+                <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                <li><a href="@Url.Action("Login", "Home")">Login</a></li>
+                <li><a href="@Url.Action("Register", "Home")">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- About Section -->
+    <section class="container py-5">
+        <h1 class="text-center glitch neon-flicker mb-3">ABOUT DARKSITE</h1>
+        <p class="text-center text-secondary mono mb-3">DevOps Learning Project - Study Purpose Only</p>
+
+        <!-- Project Overview -->
+        <div class="terminal mb-3">
+            <h2 class="mb-2">📡 PROJECT OVERVIEW</h2>
+            <div class="terminal-content">
+                <p>
+                    <strong class="text-primary">Darksite</strong> is a fictional cybersecurity-themed bounty hunter platform created as a comprehensive <strong>DevOps learning project</strong>. 
+                    This project demonstrates modern software development, deployment, and operations practices using Microsoft's .NET ecosystem and Azure cloud services.
+                </p>
+                <p class="mt-2">
+                    ⚠️ <strong class="text-danger">IMPORTANT:</strong> This is purely educational. All data, scenarios, and "bounties" are completely fictional and for demonstration purposes only.
+                </p>
+            </div>
+        </div>
+
+        <!-- Tech Stack -->
+        <div class="terminal mb-3">
+            <h2 class="mb-2">🔧 TECHNOLOGY STACK</h2>
+            <div class="grid grid-2">
+                <div>
+                    <h3 class="text-primary mono">Frontend</h3>
+                    <ul class="terminal-content">
+                        <li>ASP.NET Core MVC (.NET 8)</li>
+                        <li>Razor Views</li>
+                        <li>HTML5, CSS3, JavaScript</li>
+                        <li>Cyberpunk Dark Theme</li>
+                        <li>GSAP-inspired Animations</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-primary mono">Backend</h3>
+                    <ul class="terminal-content">
+                        <li>ASP.NET Core Web API (.NET 8)</li>
+                        <li>Entity Framework Core</li>
+                        <li>RESTful API Design</li>
+                        <li>Swagger/OpenAPI</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-primary mono">Database</h3>
+                    <ul class="terminal-content">
+                        <li>Azure SQL Database</li>
+                        <li>SQL Server (Local Dev)</li>
+                        <li>Entity Framework Migrations</li>
+                        <li>Seed Data Scripts</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-primary mono">DevOps</h3>
+                    <ul class="terminal-content">
+                        <li>Azure DevOps Pipelines</li>
+                        <li>Azure App Service</li>
+                        <li>CI/CD Automation</li>
+                        <li>NuGet Package Management</li>
+                        <li>MSBuild</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="terminal mb-3">
+            <h2 class="mb-2">✨ FEATURES DEMONSTRATED</h2>
+            <div class="grid grid-3">
+                <div class="card">
+                    <h4 class="text-primary">Full-Stack Development</h4>
+                    <p class="terminal-content">
+                        Complete separation of frontend and backend with RESTful API communication
+                    </p>
+                </div>
+                <div class="card">
+                    <h4 class="text-primary">Database Integration</h4>
+                    <p class="terminal-content">
+                        Entity Framework Core with migrations and seed data management
+                    </p>
+                </div>
+                <div class="card">
+                    <h4 class="text-primary">Azure Deployment</h4>
+                    <p class="terminal-content">
+                        Cloud hosting with Azure App Service and Azure SQL Database
+                    </p>
+                </div>
+                <div class="card">
+                    <h4 class="text-primary">CI/CD Pipeline</h4>
+                    <p class="terminal-content">
+                        Automated build, test, and deployment using Azure Pipelines
+                    </p>
+                </div>
+                <div class="card">
+                    <h4 class="text-primary">Modern UI/UX</h4>
+                    <p class="terminal-content">
+                        Cyberpunk theme with animations, particles, and terminal aesthetics
+                    </p>
+                </div>
+                <div class="card">
+                    <h4 class="text-primary">Security Basics</h4>
+                    <p class="terminal-content">
+                        Authentication (simplified for demo), CORS, HTTPS, connection strings
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learning Objectives -->
+        <div class="terminal mb-3">
+            <h2 class="mb-2">🎓 LEARNING OBJECTIVES</h2>
+            <div class="terminal-content">
+                <ol>
+                    <li><strong class="text-primary">ASP.NET Core MVC:</strong> Building web applications with the Model-View-Controller pattern</li>
+                    <li><strong class="text-primary">Web API Development:</strong> Creating RESTful APIs with proper routing and error handling</li>
+                    <li><strong class="text-primary">Entity Framework Core:</strong> Database-first and code-first approaches</li>
+                    <li><strong class="text-primary">Azure Cloud Services:</strong> App Service deployment and SQL Database hosting</li>
+                    <li><strong class="text-primary">CI/CD Pipelines:</strong> Automated build and deployment workflows</li>
+                    <li><strong class="text-primary">Version Control:</strong> Git workflows and branching strategies</li>
+                    <li><strong class="text-primary">Package Management:</strong> NuGet and dependency management</li>
+                    <li><strong class="text-primary">Configuration Management:</strong> appsettings.json, environment variables, connection strings</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Architecture -->
+        <div class="terminal mb-3">
+            <h2 class="mb-2">🏗️ ARCHITECTURE OVERVIEW</h2>
+            <div class="terminal-content mono" style="white-space: pre;">
+┌─────────────────────┐
+│   User Browser      │
+│  (Frontend - MVC)   │
+└──────────┬──────────┘
+           │ HTTP/REST
+           ▼
+┌─────────────────────┐
+│  ASP.NET Core API   │
+│  - Controllers      │
+│  - Business Logic   │
+└──────────┬──────────┘
+           │ Entity Framework
+           ▼
+┌─────────────────────┐
+│   Azure SQL DB      │
+│  - Hunters Table    │
+│  - Bounties Table   │
+└─────────────────────┘
+            </div>
+        </div>
+
+        <!-- Security Notice -->
+        <div class="terminal mb-3" style="background: rgba(255,0,64,0.05); border-color: var(--accent-danger);">
+            <h2 class="mb-2 text-danger">🔒 SECURITY NOTICE</h2>
+            <div class="terminal-content">
+                <p><strong>⚠️ THIS PROJECT IS FOR EDUCATIONAL PURPOSES ONLY</strong></p>
+                <p class="mt-1">Current implementation includes:</p>
+                <ul>
+                    <li>❌ Simplified password hashing (SHA256 - NOT production-ready)</li>
+                    <li>❌ No JWT authentication</li>
+                    <li>❌ Basic CORS configuration</li>
+                    <li>❌ No input sanitization</li>
+                    <li>❌ No rate limiting</li>
+                </ul>
+                <p class="mt-2">
+                    <strong class="text-danger">For production applications, implement:</strong>
+                </p>
+                <ul>
+                    <li>✅ BCrypt/Argon2 password hashing</li>
+                    <li>✅ JWT with refresh tokens</li>
+                    <li>✅ Proper input validation and sanitization</li>
+                    <li>✅ Rate limiting and DDoS protection</li>
+                    <li>✅ Azure Key Vault for secrets</li>
+                    <li>✅ Application Insights for monitoring</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Resources -->
+        <div class="terminal mb-3">
+            <h2 class="mb-2">📚 LEARNING RESOURCES</h2>
+            <div class="terminal-content">
+                <ul>
+                    <li><a href="https://docs.microsoft.com/aspnet/core" target="_blank" class="text-primary">ASP.NET Core Documentation</a></li>
+                    <li><a href="https://docs.microsoft.com/ef/core" target="_blank" class="text-primary">Entity Framework Core Guide</a></li>
+                    <li><a href="https://docs.microsoft.com/azure/app-service" target="_blank" class="text-primary">Azure App Service Docs</a></li>
+                    <li><a href="https://docs.microsoft.com/azure/devops/pipelines" target="_blank" class="text-primary">Azure Pipelines Tutorial</a></li>
+                    <li><a href="https://github.com" target="_blank" class="text-primary">GitHub for Version Control</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="text-center mt-3">
+            <a href="@Url.Action("Index", "Home")" class="btn btn-primary">
+                <span>🏠 BACK TO HOME</span>
+            </a>
+            <a href="@Url.Action("Login", "Home")" class="btn btn-secondary">
+                <span>⚡ TRY THE PLATFORM</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: rgba(18,18,26,0.9); padding: 2rem; text-align: center; border-top: 2px solid var(--accent-primary); margin-top: 4rem;">
+        <p class="text-muted mono">
+            ⚠️ STUDY PURPOSE ONLY - FICTIONAL PLATFORM<br>
+            DARKSITE &copy; 2025 | DevOps Learning Project
+        </p>
+        <p class="text-muted" style="margin-top: 1rem;">
+            Created with ❤️ for learning ASP.NET Core, Azure, and DevOps practices
+        </p>
+    </footer>
+
+    <!-- Load JavaScript -->
+    <script src="~/js/scroll-effects.js"></script>
+    <script src="~/js/spider.js"></script>
+</body>
+</html>

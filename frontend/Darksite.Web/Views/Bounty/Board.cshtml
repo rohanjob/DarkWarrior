@@ -1,0 +1,296 @@
+@{
+    ViewData["Title"] = "Bounty Board - Darksite";
+}
+
+<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/site.css">
+    <style>
+        .bounty-card {
+            background: rgba(26, 26, 46, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bounty-card:hover {
+            transform: translateX(10px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 5px 25px rgba(0, 255, 65, 0.2);
+        }
+
+        .bounty-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .bounty-name {
+            font-size: 1.5rem;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent-primary);
+        }
+
+        .bounty-amount {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-secondary);
+        }
+
+        .threat-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .threat-low { background: rgba(255,170,0,0.2); border: 1px solid var(--accent-warning); color: var(--accent-warning); }
+        .threat-medium { background: rgba(0,212,255,0.2); border: 1px solid var(--accent-secondary); color: var(--accent-secondary); }
+        .threat-high { background: rgba(0,255,65,0.2); border: 1px solid var(--accent-primary); color: var(--accent-primary); }
+        .threat-critical { background: rgba(255,0,64,0.2); border: 1px solid var(--accent-danger); color: var(--accent-danger); animation: pulse 2s infinite; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-primary);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animated"></div>
+    <div id="particles-bg"></div>
+
+    <!-- Navigation -->
+    <header>
+        <nav class="container">
+            <a href="@Url.Action("Index", "Home")" class="logo">DARKSITE</a>
+            <ul class="nav-links">
+                <li><a href="@Url.Action("Board", "Bounty")">Bounty Board</a></li>
+                <li><a href="@Url.Action("About", "Home")">About</a></li>
+                <li><a href="#" id="logoutLink" style="color: var(--accent-danger);">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Bounty Board Section -->
+    <section class="container" style="padding: 3rem 0;">
+        <!-- Header -->
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h1 class="glitch neon-flicker">ACTIVE BOUNTY BOARD</h1>
+            <p class="mono text-secondary" id="hunterWelcome">Welcome, Hunter</p>
+            <p class="mono text-muted">Real-time threat intelligence from the darknet</p>
+        </div>
+
+        <!-- Filters -->
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem;">
+            <button class="filter-btn active" data-filter="all">ALL BOUNTIES</button>
+            <button class="filter-btn" data-filter="Low">⚠️ LOW</button>
+            <button class="filter-btn" data-filter="Medium">🔵 MEDIUM</button>
+            <button class="filter-btn" data-filter="High">🟢 HIGH</button>
+            <button class="filter-btn" data-filter="Critical">🔴 CRITICAL</button>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="terminal text-center" style="padding: 3rem;">
+            <div class="terminal-content mono">
+                <p><span class="text-primary">⏳</span> SCANNING DARKNET NODES...</p>
+                <p><span class="text-primary">⏳</span> DECRYPTING BOUNTY DATABASE...</p>
+                <p><span class="text-primary">⏳</span> LOADING ACTIVE BOUNTIES...</p>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" class="terminal text-center" style="padding: 3rem; display: none;">
+            <div class="terminal-content mono">
+                <p class="text-danger">❌ CONNECTION ERROR</p>
+                <p class="text-secondary">Unable to connect to API. Please ensure backend is running.</p>
+                <button class="btn btn-primary mt-2" onclick="loadBounties()">
+                    <span>🔄 RETRY CONNECTION</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Bounties Container -->
+        <div id="bountiesContainer" style="display: none;">
+            <!-- Bounties will be dynamically loaded here -->
+        </div>
+
+        <!-- No Results -->
+        <div id="noResults" class="terminal text-center" style="padding: 3rem; display: none;">
+            <div class="terminal-content mono">
+                <p class="text-secondary">No bounties found matching the selected filter.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: rgba(18,18,26,0.9); padding: 2rem; text-align: center; border-top: 2px solid var(--accent-primary); margin-top: 4rem;">
+        <p class="text-muted mono">
+            ⚠️ STUDY PURPOSE ONLY - FICTIONAL PLATFORM<br>
+            DARKSITE &copy; 2025 | DevOps Learning Project
+        </p>
+    </footer>
+
+    <!-- Load JavaScript -->
+    <script src="~/js/scroll-effects.js"></script>
+    <script src="~/js/spider.js"></script>
+    <script src="~/js/api-client.js"></script>
+    
+    <script>
+        let allBounties = [];
+        let currentFilter = 'all';
+
+        // Check authentication
+        window.addEventListener('DOMContentLoaded', function() {
+            const hunter = JSON.parse(localStorage.getItem('hunter') || 'null');
+            if (hunter && hunter.name) {
+                document.getElementById('hunterWelcome').textContent = `Welcome, ${hunter.name}`;
+            }
+            loadBounties();
+        });
+
+        // Logout handler
+        document.getElementById('logoutLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('hunter');
+            window.location.href = '@Url.Action("Index", "Home")';
+        });
+
+        // Load bounties from API
+        async function loadBounties() {
+            const loadingState = document.getElementById('loadingState');
+            const errorState = document.getElementById('errorState');
+            const bountiesContainer = document.getElementById('bountiesContainer');
+            
+            try {
+                loadingState.style.display = 'block';
+                errorState.style.display = 'none';
+                bountiesContainer.style.display = 'none';
+
+                const response = await fetch('/api/bounty');
+                
+                if (!response.ok) {
+                    throw new Error('API request failed');
+                }
+
+                allBounties = await response.json();
+                
+                loadingState.style.display = 'none';
+                bountiesContainer.style.display = 'block';
+                
+                renderBounties();
+            } catch (error) {
+                console.error('Error loading bounties:', error);
+                loadingState.style.display = 'none';
+                errorState.style.display = 'block';
+            }
+        }
+
+        // Render bounties
+        function renderBounties() {
+            const container = document.getElementById('bountiesContainer');
+            const noResults = document.getElementById('noResults');
+            
+            let bounties = allBounties;
+            
+            // Filter bounties
+            if (currentFilter !== 'all') {
+                bounties = allBounties.filter(b => b.threatLevel === currentFilter);
+            }
+            
+            // Show no results if empty
+            if (bounties.length === 0) {
+                container.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+            
+            container.style.display = 'block';
+            noResults.style.display = 'none';
+            
+            // Generate bounty cards
+            container.innerHTML = bounties.map(bounty => `
+                <div class="bounty-card reveal">
+                    <div class="bounty-header">
+                        <div>
+                            <div class="bounty-name">${escapeHtml(bounty.personName)}</div>
+                            <div style="margin-top: 0.5rem;">
+                                <span class="threat-badge threat-${bounty.threatLevel.toLowerCase()}">${bounty.threatLevel.toUpperCase()}</span>
+                            </div>
+                        </div>
+                        <div class="bounty-amount">${escapeHtml(bounty.amount)}</div>
+                    </div>
+                    <div class="terminal-content">
+                        <p><strong class="text-primary">Description:</strong> ${escapeHtml(bounty.description || 'No description available')}</p>
+                        <p><strong class="text-primary">Spotted:</strong> ${formatDate(bounty.spottedDate)}</p>
+                        <p><strong class="text-primary">Status:</strong> <span class="text-primary">ACTIVE</span></p>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <button class="btn btn-primary" style="width: 100%;" onclick="acceptBounty(${bounty.id})">
+                            <span>⚡ ACCEPT BOUNTY</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.dataset.filter;
+                renderBounties();
+            });
+        });
+
+        // Accept bounty (demo function)
+        function acceptBounty(id) {
+            const bounty = allBounties.find(b => b.id === id);
+            alert(`🎯 BOUNTY ACCEPTED!\n\nTarget: ${bounty.personName}\nReward: ${bounty.amount}\n\n⚠️ This is a demo. No actual action taken.`);
+        }
+
+        // Utility functions
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+    </script>
+</body>
+</html>

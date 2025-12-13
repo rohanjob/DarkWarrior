@@ -1,0 +1,207 @@
+@{
+    ViewData["Title"] = "Register Hunter - Darksite";
+}
+
+<!DOCTYPE html>
+<html lang="en" class="dark-theme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/site.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animated"></div>
+    <div id="particles-bg"></div>
+
+    <!-- Navigation -->
+    <header>
+        <nav class="container">
+            <a href="@Url.Action("Index", "Home")" class="logo">DARKSITE</a>
+            <ul class="nav-links">
+                <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                <li><a href="@Url.Action("About", "Home")">About</a></li>
+                <li><a href="@Url.Action("Login", "Home")">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Registration Section -->
+    <section class="container" style="min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 2rem 0;">
+        <div style="max-width: 500px; width: 100%;">
+            <div class="terminal">
+                <h1 class="text-center mb-2 glitch">HUNTER REGISTRATION</h1>
+                <p class="text-center text-secondary mono mb-3">Join the Elite - Access Restricted Intel</p>
+
+                <!-- Registration Form -->
+                <form id="registerForm" style="margin-top: 2rem;">
+                    <div class="form-group">
+                        <label for="name" class="mono">
+                            <span class="text-primary">👤</span> HUNTER NAME
+                        </label>
+                        <input 
+                            type="text" 
+                            class="form-control mono" 
+                            id="name" 
+                            name="name" 
+                            placeholder="Enter your hunter alias"
+                            required
+                            minlength="3"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="mono">
+                            <span class="text-primary">⚡</span> EMAIL ADDRESS
+                        </label>
+                        <input 
+                            type="email" 
+                            class="form-control mono" 
+                            id="email" 
+                            name="email" 
+                            placeholder="hunter@darksite.com"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="mono">
+                            <span class="text-primary">🔐</span> PASSWORD
+                        </label>
+                        <input 
+                            type="password" 
+                            class="form-control mono" 
+                            id="password" 
+                            name="password" 
+                            placeholder="Create a secure password"
+                            required
+                            minlength="6"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword" class="mono">
+                            <span class="text-primary">🔐</span> CONFIRM PASSWORD
+                        </label>
+                        <input 
+                            type="password" 
+                            class="form-control mono" 
+                            id="confirmPassword" 
+                            name="confirmPassword" 
+                            placeholder="Re-enter your password"
+                            required
+                            minlength="6"
+                        >
+                    </div>
+
+                    <!-- Error Message Display -->
+                    <div id="errorMessage" style="display: none; padding: 1rem; background: rgba(255,0,64,0.1); border: 1px solid var(--accent-danger); border-radius: 5px; margin-bottom: 1rem;">
+                        <p class="text-danger mono" id="errorText"></p>
+                    </div>
+
+                    <!-- Success Message Display -->
+                    <div id="successMessage" style="display: none; padding: 1rem; background: rgba(0,255,65,0.1); border: 1px solid var(--accent-primary); border-radius: 5px; margin-bottom: 1rem;">
+                        <p class="text-primary mono">✓ Registration successful! Redirecting to login...</p>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <span id="registerButtonText">⚡ REGISTER HUNTER</span>
+                    </button>
+                </form>
+
+                <!-- Terms Notice -->
+                <div style="margin-top: 2rem; padding: 1rem; background: rgba(255,170,0,0.05); border: 1px solid rgba(255,170,0,0.2); border-radius: 5px;">
+                    <p class="text-warning mono" style="font-size: 0.85rem; margin: 0;">
+                        ⚠️ NOTICE: This is a study/demo project. Do not use real passwords. All data is for educational purposes only.
+                    </p>
+                </div>
+
+                <!-- Links -->
+                <div style="margin-top: 2rem; text-align: center;">
+                    <p class="text-secondary mono">
+                        Already registered? 
+                        <a href="@Url.Action("Login", "Home")" class="text-primary" style="text-decoration: none;">
+                            Login Here →
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: rgba(18,18,26,0.9); padding: 2rem; text-align: center; border-top: 2px solid var(--accent-primary);">
+        <p class="text-muted mono">
+            ⚠️ STUDY PURPOSE ONLY - FICTIONAL PLATFORM<br>
+            DARKSITE &copy; 2025 | DevOps Learning Project
+        </p>
+    </footer>
+
+    <!-- Load JavaScript -->
+    <script src="~/js/scroll-effects.js"></script>
+    <script src="~/js/spider.js"></script>
+    <script src="~/js/api-client.js"></script>
+    
+    <script>
+        // Registration form handler
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+            const buttonText = document.getElementById('registerButtonText');
+            
+            // Hide previous messages
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+            
+            // Validate password match
+            if (password !== confirmPassword) {
+                document.getElementById('errorText').textContent = '❌ Passwords do not match!';
+                errorDiv.style.display = 'block';
+                return;
+            }
+            
+            // Show loading state
+            buttonText.textContent = '⏳ REGISTERING...';
+            
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Show success
+                    successDiv.style.display = 'block';
+                    
+                    // Redirect to login
+                    setTimeout(() => {
+                        window.location.href = '@Url.Action("Login", "Home")';
+                    }, 2000);
+                } else {
+                    // Show error
+                    document.getElementById('errorText').textContent = '❌ ' + data.message;
+                    errorDiv.style.display = 'block';
+                    buttonText.textContent = '⚡ REGISTER HUNTER';
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                document.getElementById('errorText').textContent = '❌ Connection error. API may not be running.';
+                errorDiv.style.display = 'block';
+                buttonText.textContent = '⚡ REGISTER HUNTER';
+            }
+        });
+    </script>
+</body>
+</html>
