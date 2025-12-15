@@ -1,9 +1,3 @@
-Perfect 👍
-Below is a **professional, clean, interview-ready `README.md`** for your **DARKWARRIOR** project.
-You can **copy–paste this directly** into your GitHub repository.
-
----
-
 # 🛡️ DARKWARRIOR
 
 **Pipeline-as-Code DevOps Project using .NET, GitHub Actions & Azure VM**
@@ -213,4 +207,5 @@ GitHub: `https://github.com/rohanjob`
 ## ⭐ If you like this project
 
 Give it a ⭐ and feel free to fork for learning!
+
 
