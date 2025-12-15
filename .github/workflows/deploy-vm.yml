@@ -10,32 +10,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-    - name: Setup SSH
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.VM_SSH_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H ${{ secrets.VM_HOST }} >> ~/.ssh/known_hosts
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VM_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          printf "Host *\n\tStrictHostKeyChecking no\n\tIdentitiesOnly yes\n" > ~/.ssh/config
 
-    - name: Deploy to VM
-      run: |
-        ssh ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
-          cd DarkWarrior
-          git pull origin main
+      - name: Deploy to VM
+        run: |
+          ssh ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
+            set -e
 
-          sudo pkill dotnet || true
+            cd DarkWarrior || exit 1
+            git pull origin main
 
-          cd backend/Darksite.API
-          dotnet restore
-          dotnet build -c Release
+            echo "Stopping existing .NET processes..."
+            sudo pkill dotnet || true
 
-          cd ../../frontend/Darksite.Web
-          dotnet restore
-          dotnet build -c Release
+            echo "Building backend..."
+            cd backend/Darksite.API
+            dotnet restore
+            dotnet build -c Release
 
-          nohup dotnet run --urls=http://0.0.0.0:7001 --project backend/Darksite.API &
-          nohup dotnet run --urls=http://0.0.0.0:5001 --project frontend/Darksite.Web &
-        EOF
+            echo "Building frontend..."
+            cd ../../frontend/Darksite.Web
+            dotnet restore
+            dotnet build -c Release
+
+            echo "Starting backend..."
+            nohup dotnet run --urls=http://0.0.0.0:7001 --project backend/Darksite.API > backend.log 2>&1 &
+
+            echo "Starting frontend..."
+            nohup dotnet run --urls=http://0.0.0.0:5001 --project frontend/Darksite.Web > frontend.log 2>&1 &
+          EOF
+
