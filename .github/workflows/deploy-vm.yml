@@ -1,0 +1,41 @@
+name: Deploy DARKWARRIOR to Azure VM
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.VM_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.VM_HOST }} >> ~/.ssh/known_hosts
+
+    - name: Deploy to VM
+      run: |
+        ssh ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
+          cd DarkWarrior
+          git pull origin main
+
+          sudo pkill dotnet || true
+
+          cd backend/Darksite.API
+          dotnet restore
+          dotnet build -c Release
+
+          cd ../../frontend/Darksite.Web
+          dotnet restore
+          dotnet build -c Release
+
+          nohup dotnet run --urls=http://0.0.0.0:7001 --project backend/Darksite.API &
+          nohup dotnet run --urls=http://0.0.0.0:5001 --project frontend/Darksite.Web &
+        EOF
