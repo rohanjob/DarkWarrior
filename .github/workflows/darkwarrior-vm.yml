@@ -17,14 +17,17 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.VM_SSH_KEY }}" > ~/.ssh/id_rsa
+          sed -i 's/\r$//' ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.VM_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy to Azure VM
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
-          ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
-            cd DARKWARRIOR || exit 1
+          sai23@${{ secrets.VM_HOST }} << 'EOF'
+            set -e
+
+            cd DarkWarrior || exit 1
             git pull origin main
 
             cd backend/Darksite.API
@@ -37,7 +40,7 @@ jobs:
 
             sudo pkill dotnet || true
 
-            nohup dotnet run --urls=http://0.0.0.0:7001 --project backend/Darksite.API &
-            nohup dotnet run --urls=http://0.0.0.0:5001 --project frontend/Darksite.Web &
+            nohup dotnet run --urls=http://0.0.0.0:7001 --project backend/Darksite.API > backend.log 2>&1 &
+            nohup dotnet run --urls=http://0.0.0.0:5001 --project frontend/Darksite.Web > frontend.log 2>&1 &
           EOF
 
