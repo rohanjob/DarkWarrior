@@ -22,7 +22,8 @@ jobs:
 
       - name: Deploy to Azure VM
         run: |
-          ssh ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
+          ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
             cd DARKWARRIOR || exit 1
             git pull origin main
 
@@ -39,3 +40,4 @@ jobs:
             nohup dotnet run --urls=http://0.0.0.0:7001 --project backend/Darksite.API &
             nohup dotnet run --urls=http://0.0.0.0:5001 --project frontend/Darksite.Web &
           EOF
+
