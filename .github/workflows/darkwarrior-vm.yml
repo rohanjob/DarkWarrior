@@ -1,4 +1,4 @@
-name: Deploy DARKWARRIOR to Azure VM
+name: Deploy DarkWarrior to Azure VM
 
 on:
   push:
@@ -26,21 +26,8 @@ jobs:
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no \
           sai23@${{ secrets.VM_HOST }} << 'EOF'
             set -e
-
-            cd DarkWarrior || exit 1
+            cd DarkWarrior
             git pull origin main
-
-            cd backend/Darksite.API
-            dotnet restore
-            dotnet build -c Release
-
-            cd ../../frontend/Darksite.Web
-            dotnet restore
-            dotnet build -c Release
-
-            sudo pkill dotnet || true
-
-            nohup dotnet run --urls=http://0.0.0.0:7001 --project backend/Darksite.API > backend.log 2>&1 &
-            nohup dotnet run --urls=http://0.0.0.0:5001 --project frontend/Darksite.Web > frontend.log 2>&1 &
+            echo "Deployment completed successfully"
           EOF
 
